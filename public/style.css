@@ -1,0 +1,58 @@
+#room_name{
+
+    font-size: large;
+    background-color: rgb(226, 198, 198);
+    
+}
+
+#main_container{
+    height: 100%;
+    width: 80%;
+    
+    margin: auto;
+}
+
+#chatbox{
+    /* position absolute is how much away from its parents */
+    position: absolute ;
+    top: 80%;
+    left: 20%;
+}
+
+#game_container{
+    display: none;
+    height: 90%;
+    width: 100%;
+    background-color: rgb(185, 178, 178);
+
+}
+
+.start{
+    width:40px;
+    background-color: coral;
+}
+
+.message{
+    background-color: aquamarine;
+}
+
+.player{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: rgb(134, 158, 236);
+}
+
+.bullet{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: rgb(26, 4, 4);
+}
+
+.monster{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: rgb(182, 12, 12);
+}
