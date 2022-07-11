@@ -15,7 +15,10 @@ function add_game_room(room_id){
 }
 
 function remove_game_room(room_id){
-    room_list.delete(room_id)
+    if (room_list.has(room_id)){
+        room_list.delete(room_id)
+    }
+    
 }
 
 //REEEEE maps cant use [] to access values while obj can
@@ -26,6 +29,10 @@ function get_game_room(room_id){
     
 }
 
+function remove_player_from_room(room_obj,socket_id){
+    delete room_obj.player_list[socket_id]
+}
+
 var counter = 0
 function process_all_room(){
 
@@ -34,12 +41,9 @@ function process_all_room(){
     //loop through rooms
     //take note of key words of and in
     for(const [key,room] of room_list.entries()){
-
-        if (room.game_state == 0){
-            room_list.delete(key)
-        }
         //loop through player list of room obj and modify its position
         const player_list = room.player_list
+        
         for(const key in player_list){
             const player = player_list[key]
             process_player(player,room)
@@ -53,6 +57,10 @@ function process_all_room(){
         room.bullet_list.forEach(check_collision_with_monster)
 
         function check_collision_with_monster(bullet){
+
+            if(bullet.x > 1200){
+                bullet.deleted = 1
+            }
             monster_list.forEach( (monster,monster_index) =>{
                 
 
@@ -102,6 +110,14 @@ function process_all_room(){
             //creates monster every few seconds and add to room
             create_monster(room)
         }
+//------------------DELETE IF CAN REMOVE ROOM------------
+        // if (room.game_state == 0){
+        //     //if all players have been removed
+        //     if (room.player_list == 0){
+        //         delete room_list[room_id]
+        //         console.log('remove room')
+        //     }
+        // }
         
     }
 }
@@ -189,6 +205,7 @@ module.exports = {
     add_game_room,
     remove_game_room,
     get_game_room,
+    remove_player_from_room,
     add_user,
     get_user,
     create_player,

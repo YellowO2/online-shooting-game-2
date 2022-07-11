@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 
-const {add_game_room,remove_game_room,add_user,get_user, create_player,get_game_room,process_all_room} = require('./utils/user')
+const {add_game_room,remove_game_room,remove_player_from_room,add_user,get_user, create_player,get_game_room,process_all_room} = require('./utils/user')
 
 const app = express();
 const http = require("http").createServer(app);
@@ -10,33 +10,6 @@ const io = require('socket.io')(http);
 
 app.use(express.static('./public'))
 
-
-//const app = express();
-// const httpServer = http.createServer();
-// const io = new socketio.Server(httpServer, {
-//     cors: {
-//         allowedHeaders: ["authorization", "Content-Type"], // you can change the headers
-//         exposedHeaders: ["authorization"], // you can change the headers
-//         origin: "*",
-//         methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//         preflightContinue: false
-//     },
-//   });
-//allow other servers to access
-// app.use(
-// cors({
-//     allowedHeaders: ["authorization", "Content-Type"], // you can change the headers
-//     exposedHeaders: ["authorization"], // you can change the headers
-//     origin: "*",
-//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//     preflightContinue: false
-//   })
-// )
-
-// //this sets static folders as middle ware to connect to server
-// app.use('/api', createProxyMiddleware({ target: 'https://unrivaled-dasik-33d573.netlify.app', changeOrigin: true }));
-// //../public
-// //https://unrivaled-dasik-33d573.netlify.app
 
 
 //run when client connects
@@ -97,14 +70,17 @@ io.on('connection', socket => {
 
             my_interval = setInterval(() => {
                 const room = get_game_room(room_number)
+                console.log('interval still running')
+
                 if(room.game_state == 0){
+                    console.log('removed player')
                     socket.emit('lose')
                 }
+
                 //send the state of room over to client
                 socket.emit('paint_game',room )
             }, 50);
             
-
             socket.on('keydown',(key)=>{
                 player.key = key
             })
@@ -121,10 +97,16 @@ io.on('connection', socket => {
             const user_name = get_user(socket.id).user_name
             console.log(user_name+' left')
             io.emit('message',user_name +  " has left the lobby") //io emit means everybody
-
+            
             //get room of user and remove it
             const room_id = get_user(socket.id).room
-            remove_game_room(room_id)
+            const room = get_game_room(room_id)
+            remove_player_from_room(room,socket.id)
+            if ( Object.keys(room.player_list).length == 0){
+                console.log('removed game rome')
+                remove_game_room(room_id)
+            }
+            
         }
         
     })

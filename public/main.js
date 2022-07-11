@@ -189,10 +189,35 @@ function make_obj(class_name,x,y){
     div.style.left = x + 'px'
     div.style.top = y + 'px'
     game_container.append(div)
+    return div
+}
+
+function make_container(class_name){
+    const div = document.createElement('div');
+    div.classList.add(class_name);
+    return div
+}
+
+function make_add_on(class_name){
+    const div = document.createElement('div');
+    div.classList.add(class_name);
+    return div
 }
 
 function make_player(player){
-    make_obj('player',player.x,player.y)
+    const player_ele = make_container('player')
+    const player_body = make_add_on('player_body')
+    player_ele.append(player_body)
+
+    const name_tag = make_add_on('name_tag')
+    name_tag.innerText = player.user_name 
+
+    player_ele.append(name_tag)
+
+    player_ele.style.top = player.y + "px"
+    player_ele.style.left = player.x + "px"
+    game_container.append(player_ele)
+
 }
 
 function make_bullet(bullet){
@@ -200,5 +225,19 @@ function make_bullet(bullet){
 }
 
 function make_monster(monster){
-    make_obj('monster',monster.x,monster.y)
+    const monster_ele = make_obj('monster',monster.x,monster.y)
+
+    const monster_body = make_add_on('monster_body')
+
+    const healthbar = make_add_on('progress')
+    const innerbar = make_add_on('progress_bar')
+    innerbar.style.width = monster.hp * 10 + 'px'
+    
+    healthbar.append(innerbar)
+
+    monster_ele.append(monster_body)
+    monster_ele.append(healthbar)
+
+    game_container.append(monster_ele)
+
 }
