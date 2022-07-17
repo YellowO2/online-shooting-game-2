@@ -5,6 +5,11 @@ const msgbox = document.getElementById('msg')
 const leave = document.getElementById('leave')
 const room_display = document.getElementById('room_display')
 const game_container = document.getElementById('game_container')
+const left = document.getElementById('left')
+const right = document.getElementById('right')
+const top_but = document.getElementById('top')
+const bottom = document.getElementById('bottom')
+const attack = document.getElementById('attack')
 const {user_name,room_number} = Qs.parse(location.search, {ignoreQueryPrefix: true}) //{ignore}
 // IMPORTANT: variable above needs to have the same 'name' of the input in html tags
 console.log(user_name,room_number)
@@ -34,7 +39,7 @@ socket.on('message', ( full_msg ) => {
 //display game_container when game starts
 socket.on('everyone_game_start',()=>{
     socket.emit('confirm_game_start')
-    document.getElementById('game_container').style.display = 'inline'
+    document.getElementById('game').style.display = 'inline'
     document.getElementById('main_container').style.display = 'none'
 })
 
@@ -97,6 +102,26 @@ document.addEventListener("keydown",function(e){
     socket.emit('keydown',key)
     console.log('key emitted')
 })
+
+left.onclick = ()=>{
+    socket.emit('keydown',1)
+    console.log('left pressed')
+}
+right.onclick = ()=>{
+    socket.emit('keydown',2)
+}
+top_but.onclick = ()=>{
+    socket.emit('keydown',3)
+}
+bottom.onclick = ()=>{
+    socket.emit('keydown',4)
+}
+attack.onclick = ()=>{
+    socket.emit('keydown',5)
+}
+
+
+
 
 
 
