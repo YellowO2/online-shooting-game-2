@@ -79,7 +79,7 @@ io.on('connection', socket => {
 
                 //send the state of room over to client
                 socket.emit('paint_game',room )
-            }, 50);
+            }, 25);
             
             socket.on('keydown',(key)=>{
                 player.key = key
@@ -119,7 +119,7 @@ setInterval(() => {
     //might have to add delay within the function to make bullet speed faster than player
     // or i can increase the range and speed of bullet together such that it covers for increase of speed
     process_all_room()
-}, 50);
+}, 25);
 
 
 const PORT = process.env.PORT || 5000 ;
