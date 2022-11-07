@@ -141,6 +141,7 @@ function display_msg(msg,user_name){
 function make_start(){
     const button = document.createElement('button');
     button.id = 'start'
+    bottom.className = "btn btn-primary"
     button.innerText = 'Start game';
     document.getElementById('main_container').appendChild(button);
 

@@ -184,8 +184,8 @@ function create_bullet(player,room){
 /////////MONSTER FUNCTIONS__________________________
 function create_monster(room){
     const hp = 4
-    const x = 400
-    const y = Math.floor((Math.random()+1)*200)
+    const x = 600
+    const y = Math.floor((Math.random())*200)
     const range = 2*unit
     const monster = {x,y,hp,range}
     room.monster_list.push(monster)
