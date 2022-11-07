@@ -38,6 +38,7 @@ socket.on('message', ( full_msg ) => {
 
 //display game_container when game starts
 socket.on('everyone_game_start',()=>{
+    console.log('everyone start game')
     socket.emit('confirm_game_start')
     document.getElementById('game').style.display = 'inline'
     document.getElementById('main_container').style.display = 'none'
@@ -141,7 +142,7 @@ function display_msg(msg,user_name){
 function make_start(){
     const button = document.createElement('button');
     button.id = 'start'
-    bottom.classList.add('btn btn-primary')
+    button.classList.add('bootstrap-btn')
     button.innerText = 'Start game';
     document.getElementById('main_container').appendChild(button);
 
