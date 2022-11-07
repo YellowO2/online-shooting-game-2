@@ -24,8 +24,6 @@ io.on('connection', socket => {
         if (user_name == null || room_number == null||user_name == 0|| room_number == 0 ){
             socket.disconnect()
         }
-
-        console.log(user_name,room_number)
         //add user into userlist
         add_user(socket.id,user_name,room_number)
 
@@ -70,7 +68,6 @@ io.on('connection', socket => {
 
             my_interval = setInterval(() => {
                 const room = get_game_room(room_number)
-                console.log('interval still running')
 
                 if(room.game_state == 0){
                     console.log('removed player')
